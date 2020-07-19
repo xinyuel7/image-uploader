@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
-from wtforms import FileField
+from wtforms import FileField, StringField, SubmitField
+from wtforms.validators import DataRequired
 from flask_uploads import configure_uploads, IMAGES, UploadSet
 
 
@@ -13,7 +14,9 @@ images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
 
 class MyForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
     image = FileField('image')
+    submit = SubmitField('Post')
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
